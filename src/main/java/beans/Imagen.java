@@ -1,12 +1,18 @@
 package beans;
 
+import java.awt.Image;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Imagen {
 	private String ruta, nombre;
 	private int tamanio;
+	
+	public Imagen() {
+		
+	}
 	
 	public Imagen(String ruta, String nombre, int tamanio) {
 		this.ruta = ruta;
@@ -24,11 +30,24 @@ public class Imagen {
 		return mb+"Mb"+kb+"Kb"+b+"bytes";
 	}
 	
-	public ArrayList<Imagen> imagenesCarpeta(String ruta) {
+	public ArrayList<Imagen> imagenesDeCarpeta(String ruta) {
+		ArrayList<Imagen> imagenesDeCarpeta= new ArrayList<Imagen>();
 		File file= new File(ruta);
-		
-		
-		return null;
+		String[] fotos=file.list();
+		String[] urlPartida=ruta.split("\\\\");
+		String carpeta=urlPartida[urlPartida.length-1];
+		for (String foto : fotos) {
+			String[] nombrePartido=foto.split("\\.");
+			String nombre=nombrePartido[0];
+			String rutaImg =carpeta+"\\"+nombre+".jpg";
+			File fFoto=new File(ruta+"\\"+foto);
+//			System.out.println(ruta+"\\"+foto);
+			int tamanio=(int)fFoto.length();
+			System.out.println(tamanio);
+			Imagen img=new Imagen(rutaImg, nombre, tamanio);
+			imagenesDeCarpeta.add(img);
+		}
+		return imagenesDeCarpeta;
 	}
 	public String getRuta() {
 		return ruta;
